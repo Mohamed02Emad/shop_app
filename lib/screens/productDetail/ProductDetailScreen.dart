@@ -11,14 +11,13 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
-     final product = ModalRoute.of(context)!.settings.arguments as Product;
+    final product = ModalRoute.of(context)!.settings.arguments as Product;
+
     return const Scaffold(
       body: Center(
         child: Text(
           "ProductDetailScreen",
-          style: TextStyle(
-            color: Colors.deepOrange
-          ),
+          style: TextStyle(color: Colors.deepOrange),
         ),
       ),
     );

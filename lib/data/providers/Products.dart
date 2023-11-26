@@ -1,16 +1,15 @@
-import './ProductsProvider.dart';
-import '../models/Product.dart';
+import 'package:shop_app/data/models/Product.dart';
+
 import 'package:flutter/material.dart';
-class Products with ChangeNotifier{
+import 'package:shop_app/data/providers/ProductsProvider.dart';
+
+class Products extends ChangeNotifier {
   final List<Product> _items = FakeProducts.getFakeProducts();
 
-  List<Product> getItems(){
-    return [..._items];
-  }
+  List<Product> get getItems => _items;
 
-  void addProduct(Product){
-    _items.add(Product);
+  void addProduct(Product product) {
+    _items.add(product);
     notifyListeners();
   }
-
 }
