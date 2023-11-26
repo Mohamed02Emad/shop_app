@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/productDetail/ProductDetailScreen.dart';
 
 import '../data/models/Product.dart';
 
@@ -25,7 +26,9 @@ class _ProductItemState extends State<ProductItem> {
       child: InkWell(
         borderRadius: BorderRadius.circular(12.0),
         splashColor: Colors.grey[600]?.withAlpha(80),
-        onTap: () {},
+        onTap: () {
+          navigateToProductDetail();
+        },
         child: GridTile(
           footer: GridTileBar(
             leading: IconButton(
@@ -60,6 +63,12 @@ class _ProductItemState extends State<ProductItem> {
           ),
         ),
       ),
+    );
+  }
+
+  void navigateToProductDetail() {
+    Navigator.of(context).pushNamed(
+      ProductDetailScreen.routeName, arguments: widget.product,
     );
   }
 }

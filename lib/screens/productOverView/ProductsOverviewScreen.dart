@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/data/providers/ProductsProvider.dart';
 import 'package:shop_app/widgets/ProductItem.dart';
-
+import 'package:provider/provider.dart';
+import '../../data/providers//Products.dart';
 class ProductsOverViewScreen extends StatelessWidget {
-  final listOfProducts = FakeProducts.getFakeProducts();
 
-  ProductsOverViewScreen({super.key});
+  const ProductsOverViewScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final productsData = Provider.of<Products>(context);
+    final listOfProducts = productsData.getItems();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Store"),

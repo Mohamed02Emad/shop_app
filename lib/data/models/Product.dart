@@ -14,5 +14,4 @@ class Product {
     required this.imageUrl,
     this.isFavorite = false,
   });
-
 }
