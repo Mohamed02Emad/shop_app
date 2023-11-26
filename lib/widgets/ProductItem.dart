@@ -1,42 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/data/models/Product.dart';
+import 'package:shop_app/data/providers/Products.dart';
 import 'package:shop_app/screens/productDetail/ProductDetailScreen.dart';
 
-import '../data/models/Product.dart';
+class ProductItem extends StatelessWidget {
+  const ProductItem({super.key});
 
-class ProductItem extends StatefulWidget {
-  final Product product;
-
-  const ProductItem({super.key, required this.product});
-
-  @override
-  State<ProductItem> createState() => _ProductItemState();
-}
-
-class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<Product>(context);
     IconData icon;
-    if (widget.product.isFavorite) {
+    if (product.isFavorite) {
       icon = Icons.favorite;
     } else {
       icon = Icons.favorite_outline;
     }
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(12.0),
       child: InkWell(
         borderRadius: BorderRadius.circular(12.0),
         splashColor: Colors.grey[600]?.withAlpha(80),
         onTap: () {
-          navigateToProductDetail();
+          navigateToProductDetail(product.id , context);
         },
         child: GridTile(
           footer: GridTileBar(
             leading: IconButton(
               icon: Icon(icon),
               onPressed: () {
-                setState(() {
-                  widget.product.isFavorite = !widget.product.isFavorite;
-                });
+                product.toggleFavorite();
               },
             ),
             trailing: IconButton(
@@ -44,7 +38,7 @@ class _ProductItemState extends State<ProductItem> {
               onPressed: () {},
             ),
             title: Text(
-              widget.product.title,
+              product.title,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 14,
@@ -56,7 +50,7 @@ class _ProductItemState extends State<ProductItem> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.0),
               image: DecorationImage(
-                image: NetworkImage(widget.product.imageUrl),
+                image: NetworkImage(product.imageUrl),
                 fit: BoxFit.cover,
               ),
             ),
@@ -66,9 +60,11 @@ class _ProductItemState extends State<ProductItem> {
     );
   }
 
-  void navigateToProductDetail() {
+  void navigateToProductDetail(String productId , BuildContext context) {
     Navigator.of(context).pushNamed(
-      ProductDetailScreen.routeName, arguments: widget.product,
+      ProductDetailScreen.routeName,
+      arguments: productId,
     );
   }
+
 }

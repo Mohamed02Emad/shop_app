@@ -13,17 +13,45 @@ class ProductsOverViewScreen extends StatefulWidget {
 }
 
 class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
+
+  var showOnlyFavourites = false;
+
   @override
   Widget build(BuildContext context) {
-    final loadedProducts = Provider.of<Products>(context).getItems;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Store"),
         centerTitle: true,
+        actions: [
+          PopupMenuButton(
+            onSelected: (int val){
+              var showFavourite = val == 0;
+              if(showFavourite){
+                setState(() {
+                  showOnlyFavourites = true;
+                });
+              } else{
+                setState(() {
+                  showOnlyFavourites = false;
+                });
+              }
+            },
+            icon: const Icon(
+              Icons.menu,
+            ),
+            itemBuilder: (_) => [
+              const PopupMenuItem(
+                value: 0,
+                child: Text("Favorite"),
+              ),const PopupMenuItem(
+                value: 1,
+                child: Text("All"),
+              ),
+            ],
+          ),
+        ],
       ),
-      body: Consumer<Products>(
-        builder:(_,ctx,__)=>  ProductsList(listOfProducts: loadedProducts),
-      )
+      body: ProductsList(showOnlyFavourites: showOnlyFavourites),
     );
   }
 }
