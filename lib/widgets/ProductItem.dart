@@ -40,6 +40,23 @@ class ProductItem extends StatelessWidget {
                   icon:  Icon(cart.isProductInCart(product.id) ? Icons.shopping_cart : Icons.shopping_cart_outlined),
                   onPressed: () {
                     cart.addItem(product.id, product.toCartItem());
+                    ScaffoldMessenger.of(context).showSnackBar(
+                       SnackBar(
+                        content: const Text(
+                          'Added to cart',
+                          textAlign: TextAlign.center,
+                        ),
+                        duration: const Duration(
+                          milliseconds: 2000,
+                        ),
+                        action: SnackBarAction(
+                          label: "UNDO",
+                          onPressed: () {
+                            cart.removeItem(product.id);
+                          },
+                        ),
+                      ),
+                    );
                   },
                 );
               },
