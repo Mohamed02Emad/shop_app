@@ -21,12 +21,39 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       appBar: AppBar(
         title: Text(product.title),
       ),
-      body: const Center(
-          child: Text(
-            "ProductDetailScreen",
-            style: TextStyle(color: Colors.deepOrange),
-          ),
+      body: Container(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Name : ${product.title}",
+              style: const TextStyle(fontSize: 18, color: Colors.black),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            SizedBox(width: 300,height : 300,child: Image.network(product.imageUrl, fit: BoxFit.cover)),
+            const SizedBox(
+              height: 4,
+            ),
+            Text(
+              "${product.description}",
+              style: const TextStyle(fontSize: 14, color: Colors.black87),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              "price : ${product.price} \$",
+              style: const TextStyle(fontSize: 18, color: Colors.black87),
+            )
+          ],
         ),
+      ),
     );
   }
 }

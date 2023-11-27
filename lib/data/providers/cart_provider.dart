@@ -42,12 +42,20 @@ class CartProvider extends ChangeNotifier {
     return totalPrice.toStringAsFixed(2);
   }
 
+  double getTotalPriceAsDouble() {
+    double totalPrice = 0;
+    _cartItems.forEach((key, item) {
+      totalPrice += (item.price * item.quantity);
+    });
+    return double.parse(totalPrice.toStringAsFixed(2));
+  }
+
   CartItem getCartByIndex(int index) {
     var list = _cartItems.values.toList();
     return list[index];
   }
 
-  void removeCartItemById(String productId){
+  void removeCartItemById(String productId) {
     _cartItems.remove(productId);
     notifyListeners();
   }
@@ -55,4 +63,10 @@ class CartProvider extends ChangeNotifier {
   String getCartKey(int index) {
     return _cartItems.keys.toList()[index];
   }
+
+  void clearCart() {
+    _cartItems.clear();
+  }
+
+  List<CartItem> getCartItems() => _cartItems.values.toList();
 }
