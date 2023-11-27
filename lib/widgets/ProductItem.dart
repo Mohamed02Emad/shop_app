@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/data/models/Product.dart';
-import 'package:shop_app/data/providers/Products.dart';
+import 'package:shop_app/data/providers/cart_provider.dart';
 import 'package:shop_app/screens/productDetail/ProductDetailScreen.dart';
 
 class ProductItem extends StatelessWidget {
@@ -10,6 +10,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context);
+    // final cart = Provider.of<CartProvider>(context, listen: false);
     IconData icon;
     if (product.isFavorite) {
       icon = Icons.favorite;
@@ -33,9 +34,15 @@ class ProductItem extends StatelessWidget {
                 product.toggleFavorite();
               },
             ),
-            trailing: IconButton(
-              icon: const Icon(Icons.shopping_cart),
-              onPressed: () {},
+            trailing: Consumer<CartProvider>(
+              builder: (__, cart,_) {
+                return IconButton(
+                  icon:  Icon(cart.isProductInCart(product.id) ? Icons.shopping_cart : Icons.shopping_cart_outlined),
+                  onPressed: () {
+                    cart.addItem(product.id, product.toCartItem());
+                  },
+                );
+              },
             ),
             title: Text(
               product.title,

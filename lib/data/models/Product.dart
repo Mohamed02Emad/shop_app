@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/data/models/cart.dart';
 
 class Product extends ChangeNotifier {
   final String id;
@@ -21,4 +22,15 @@ class Product extends ChangeNotifier {
     isFavorite = !isFavorite;
     notifyListeners();
   }
+
+  CartItem toCartItem(){
+    return  CartItem(
+      id: CartItem.getNewId(),
+      title: title,
+      quantity: 1,
+      price: price,
+      imageUrl: imageUrl
+    );
+  }
+
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/data/providers/Products.dart';
+import 'package:shop_app/data/providers/cart_provider.dart';
+import 'package:shop_app/screens/cart_screen/cart_screen.dart';
 import 'package:shop_app/widgets/products_list_widget.dart';
 
 
@@ -23,14 +24,20 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
         title: const Text("Store"),
         centerTitle: true,
         actions: [
+          IconButton(
+            onPressed: () {
+              navigateToCart();
+            },
+            icon: const Icon(Icons.shopping_cart),
+          ),
           PopupMenuButton(
-            onSelected: (int val){
+            onSelected: (int val) {
               var showFavourite = val == 0;
-              if(showFavourite){
+              if (showFavourite) {
                 setState(() {
                   showOnlyFavourites = true;
                 });
-              } else{
+              } else {
                 setState(() {
                   showOnlyFavourites = false;
                 });
@@ -39,11 +46,13 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
             icon: const Icon(
               Icons.menu,
             ),
-            itemBuilder: (_) => [
+            itemBuilder: (_) =>
+            [
               const PopupMenuItem(
                 value: 0,
                 child: Text("Favorite"),
-              ),const PopupMenuItem(
+              ),
+              const PopupMenuItem(
                 value: 1,
                 child: Text("All"),
               ),
@@ -52,6 +61,12 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
         ],
       ),
       body: ProductsList(showOnlyFavourites: showOnlyFavourites),
+    );
+  }
+
+  void navigateToCart() {
+    Navigator.of(context).pushNamed(
+      CartScreen.route,
     );
   }
 }
