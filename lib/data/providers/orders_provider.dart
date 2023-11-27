@@ -11,6 +11,8 @@ class OrdersProvider extends ChangeNotifier {
 
   static int orderId = 0;
 
+  int itemCount() => _orders.length;
+
   void addOrder(List<CartItem> cartProducts, double total) {
     orderId++;
     _orders.insert(
@@ -23,5 +25,13 @@ class OrdersProvider extends ChangeNotifier {
       ),
     );
     notifyListeners();
+  }
+
+  static String getAllItemsString(Order order) {
+    var string = "";
+    order.products.forEach((item) {
+      string += "Quantity: ${item.quantity} , Name: ${item.title}\n";
+    });
+    return string;
   }
 }

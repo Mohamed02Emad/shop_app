@@ -66,6 +66,7 @@ class CartProvider extends ChangeNotifier {
 
   void clearCart() {
     _cartItems.clear();
+    notifyListeners();
   }
 
   List<CartItem> getCartItems() => _cartItems.values.toList();
