@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/data/providers/cart_provider.dart';
 import 'package:shop_app/screens/cart_screen/cart_screen.dart';
 import 'package:shop_app/screens/orders_screen/orders_screen.dart';
+import 'package:shop_app/screens/yourProductsScreen/your_products_screen.dart';
 import 'package:shop_app/widgets/products_list_widget.dart';
 
 
@@ -22,6 +23,12 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading:  IconButton(
+          onPressed: () {
+            navigateToYourProductsScreen();
+          },
+          icon: const Icon(Icons.my_library_books_outlined),
+        ),
         title: const Text("Store"),
         centerTitle: true,
         actions: [
@@ -79,6 +86,11 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
   void navigateToOrders() {
     Navigator.of(context).pushNamed(
       OrdersScreen.route,
+    );
+  }
+  void navigateToYourProductsScreen() {
+    Navigator.of(context).pushNamed(
+      YourProductsScreen.route,
     );
   }
 }
