@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/data/providers/Products.dart';
+import 'package:shop_app/screens/addProductScreen/add_product_screen.dart';
 import 'package:shop_app/widgets/your_product_item.dart';
 
 class YourProductsScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class YourProductsScreen extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 12),
             child: IconButton(
               onPressed: () {
-                addNewProduct();
+                navigateToAddNewProduct(context);
               },
               icon: const Icon(
                 Icons.add,
@@ -45,5 +46,9 @@ class YourProductsScreen extends StatelessWidget {
     );
   }
 
-  void addNewProduct() {}
+  void navigateToAddNewProduct(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      AddProductScreen.route
+    );
+  }
 }

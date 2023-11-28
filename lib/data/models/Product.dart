@@ -23,14 +23,28 @@ class Product extends ChangeNotifier {
     notifyListeners();
   }
 
-  CartItem toCartItem(){
-    return  CartItem(
-      id: CartItem.getNewId(),
-      title: title,
-      quantity: 1,
-      price: price,
-      imageUrl: imageUrl
-    );
+  CartItem toCartItem() {
+    return CartItem(
+        id: CartItem.getNewId(),
+        title: title,
+        quantity: 1,
+        price: price,
+        imageUrl: imageUrl);
   }
 
+  Product copy({
+    String? id,
+    String? title,
+    String? description,
+    double? price,
+    String? imageUrl,
+  }) {
+    return Product(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
 }
