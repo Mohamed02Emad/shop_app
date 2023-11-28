@@ -19,6 +19,7 @@ class _ProductsOverViewScreenState extends State<ProductsOverViewScreen> {
 
   var showOnlyFavourites = false;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

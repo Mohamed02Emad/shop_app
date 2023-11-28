@@ -1,21 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shop_app/data/models/Product.dart';
-import 'package:shop_app/data/providers/ProductsProvider.dart';
 
 class Products extends ChangeNotifier {
-  final List<Product> _items = FakeProducts.getFakeProducts();
-
+  // final List<Product> _items = FakeProducts.getFakeProducts();
+  final List<Product> _items = [];
 
   List<Product> get getItems {
-      return _items;
-
+    return _items;
   }
 
   List<Product> get getFavouriteItems {
-      return _items.where((element) => element.isFavorite).toList();
+    return _items.where((element) => element.isFavorite).toList();
   }
-
-
 
   void addProduct(Product product) {
     _items.add(product);
@@ -33,5 +31,18 @@ class Products extends ChangeNotifier {
     updatedProduct.isFavorite = !updatedProduct.isFavorite;
     _items[index] = updatedProduct;
     notifyListeners();
+  }
+
+  void addAllFromJson(String jsonResponse) {
+    try {
+      var map = json.decode(jsonResponse) as Map<String, dynamic>;
+      map.forEach((key, value) {
+        var product = Product.fromJson(value);
+        _items.add(product);
+      });
+      notifyListeners();
+    } catch (e) {
+      print("Mohamed $e");
+    }
   }
 }

@@ -44,7 +44,27 @@ class Product extends ChangeNotifier {
       title: title ?? this.title,
       description: description ?? this.description,
       price: price ?? this.price,
-      imageUrl: imageUrl ?? this.imageUrl,
+      imageUrl: imageUrl ?? this.imageUrl.trim(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'price': price.toString(),
+      'imageUrl': imageUrl.trim(),
+    };
+  }
+
+  static Product fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json.keys.first,
+      title: json['title'],
+      description: json['description'],
+      price: double.parse(json['price']),
+      imageUrl: json['imageUrl'].toString().trim(),
     );
   }
 }

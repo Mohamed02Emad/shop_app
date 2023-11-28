@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/data/providers/Products.dart';
+import 'package:shop_app/utils/networkHelper.dart';
 
 import '../../data/models/Product.dart';
 
@@ -155,7 +156,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
   void _saveProduct() {
     _form.currentState?.save();
     products.addProduct(_tempProduct);
-    Navigator.pop(context);
-
+    NetworkHelper.postProduct("products", _tempProduct).then((response) {
+      if (response != null && response.body.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Product Was Added"),
+          ),
+        );
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Error"),
+          ),
+        );
+      }
+    });
   }
 }
