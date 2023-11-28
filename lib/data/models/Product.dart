@@ -58,9 +58,9 @@ class Product extends ChangeNotifier {
     };
   }
 
-  static Product fromJson(Map<String, dynamic> json) {
+  static Product fromJson(String productId , Map<String, dynamic> json) {
     return Product(
-      id: json.keys.first,
+      id: productId,
       title: json['title'],
       description: json['description'],
       price: double.parse(json['price']),

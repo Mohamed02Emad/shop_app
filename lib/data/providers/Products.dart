@@ -37,12 +37,22 @@ class Products extends ChangeNotifier {
     try {
       var map = json.decode(jsonResponse) as Map<String, dynamic>;
       map.forEach((key, value) {
-        var product = Product.fromJson(value);
+        var product = Product.fromJson(key,value);
         _items.add(product);
       });
       notifyListeners();
     } catch (e) {
       print("Mohamed $e");
     }
+  }
+
+   void clearAll(){
+    _items.clear();
+    notifyListeners();
+  }
+
+  void remove(Product product) {
+    _items.remove(product);
+    notifyListeners();
   }
 }

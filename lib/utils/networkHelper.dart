@@ -28,7 +28,19 @@ class NetworkHelper{
       );
       return response;
     } catch (e) {
-      print("postErrorMessage ${e.toString()}");
+      print("getErrorMessage ${e.toString()}");
+      return null;
+    }
+  }
+  static Future<http.Response?> deleteProducts(String endpoint,String productId , {String baseUrl = BASE_URL}) async {
+    final uri = Uri.parse("$baseUrl$endpoint$productId.json");
+    try {
+      final response = await http.delete(
+        uri,
+      );
+      return response;
+    } catch (e) {
+      print("deleteErrorMessage ${e.toString()}");
       return null;
     }
   }

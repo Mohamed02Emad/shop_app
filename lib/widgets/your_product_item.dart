@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/data/models/Product.dart';
+import 'package:shop_app/utils/networkHelper.dart';
 
-class YourProductItem extends StatelessWidget {
+import '../data/providers/Products.dart';
+
+class YourProductItem extends StatefulWidget {
   final Product product;
 
   const YourProductItem({required this.product, super.key});
 
   @override
+  State<YourProductItem> createState() => _YourProductItemState();
+}
+
+class _YourProductItemState extends State<YourProductItem> {
+  late Products products;
+
+  @override
   Widget build(BuildContext context) {
+    products = Provider.of<Products>(context);
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -33,7 +45,7 @@ class YourProductItem extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.network(
-                    product.imageUrl,
+                    widget.product.imageUrl,
                     width: 40,
                     height: 40,
                     fit: BoxFit.cover,
@@ -41,7 +53,7 @@ class YourProductItem extends StatelessWidget {
                 ),
               ),
             ),
-            Text(product.title),
+            Text(widget.product.title),
             const Spacer(),
             IconButton(
               onPressed: () {
@@ -58,5 +70,43 @@ class YourProductItem extends StatelessWidget {
     );
   }
 
-  void deleteProduct() {}
+  void deleteProduct() {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          title: const Text("Remove Item"),
+          content: const Text("Do you want to remove this Item ?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text("No"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Yes"),
+            ),
+          ],
+        );
+      },
+    ).then((isDelete) {
+      if (isDelete) {
+        NetworkHelper.deleteProducts("products/", widget.product.id.trim())
+            .then((response) {
+          if (response?.statusCode == 200) {
+            products.remove(widget.product);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text("Error"),
+              duration: Duration(seconds: 1),
+            ));
+          }
+        });
+      }
+    });
+  }
 }
