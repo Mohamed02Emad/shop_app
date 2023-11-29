@@ -18,41 +18,62 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final product = Provider.of<Products>(context).findById(productId);
 
     return  Scaffold(
-      appBar: AppBar(
-        title: Text(product.title),
-      ),
-      body: Container(
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 20,
+
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text(product.title , style: const TextStyle(
+                color: Colors.black
+              ),),
+              background: Hero(
+                tag: product.id,
+                child: Image.network(product.imageUrl,
+                    fit: BoxFit.cover),
+              ),
             ),
-            Text(
-              "Name : ${product.title}",
-              style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Name : ${product.title}",
+                        style:
+                        const TextStyle(fontSize: 18, color: Colors.black),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        product.description,
+                        style: const TextStyle(
+                            fontSize: 14, color: Colors.black87),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "price : ${product.price} \$",
+                        style: const TextStyle(
+                            fontSize: 18, color: Colors.black87),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 8,
-            ),
-            SizedBox(width: 300,height : 300,child: Image.network(product.imageUrl, fit: BoxFit.cover)),
-            const SizedBox(
-              height: 4,
-            ),
-            Text(
-              "${product.description}",
-              style: const TextStyle(fontSize: 14, color: Colors.black87),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(
-              "price : ${product.price} \$",
-              style: const TextStyle(fontSize: 18, color: Colors.black87),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

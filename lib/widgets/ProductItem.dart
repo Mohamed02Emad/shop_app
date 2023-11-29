@@ -10,7 +10,6 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context);
-    // final cart = Provider.of<CartProvider>(context, listen: false);
     IconData icon;
     if (product.isFavorite) {
       icon = Icons.favorite;
@@ -41,7 +40,7 @@ class ProductItem extends StatelessWidget {
                   onPressed: () {
                     cart.addItem(product.id, product.toCartItem());
                     ScaffoldMessenger.of(context).showSnackBar(
-                       SnackBar(
+                      SnackBar(
                         content: const Text(
                           'Added to cart',
                           textAlign: TextAlign.center,
@@ -70,14 +69,33 @@ class ProductItem extends StatelessWidget {
             ),
             backgroundColor: Colors.black.withAlpha(200),
           ),
-          child: Ink(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.0),
-              image: DecorationImage(
-                image: NetworkImage(product.imageUrl),
-                fit: BoxFit.cover,
+          child: Stack(
+            children: <Widget>[
+              SizedBox(
+                width: double.infinity,
+                height: double.infinity,
+                child: Hero(
+                  tag: product.id,
+                  child: FadeInImage(
+                    placeholder:
+                        const AssetImage("assets/images/placeholder.jpeg"),
+                    image: NetworkImage(product.imageUrl),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
+              Positioned.fill(
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      navigateToProductDetail(product.id, context);
+                    },
+                    splashColor: Colors.grey.withOpacity(0.5),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
